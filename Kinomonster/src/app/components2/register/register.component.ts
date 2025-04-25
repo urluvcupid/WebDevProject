@@ -13,7 +13,7 @@ export class RegisterComponent {
   email = '';
   password = '';
   repeatPassword = '';
-
+  
   onRegister() {
     if (this.password === this.repeatPassword) {
       console.log('Register:', this.email, this.password);
