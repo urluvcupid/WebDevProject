@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { AuthService } from '../../services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   standalone: true,
@@ -10,10 +12,20 @@ import { CommonModule } from '@angular/common';
   imports: [CommonModule, FormsModule],
 })
 export class LoginComponent {
-  email = '';
-  password = '';
+  email: string = '';
+  password: string = '';
+
+  constructor(private authService: AuthService, private router: Router){}
 
   onSubmit() {
-    console.log('Login:', this.email, this.password);
+    this.authService.login(this.email, this.password).subscribe({
+      next: (response: any) => {
+        this.authService.saveToken(response.access); 
+      },
+      error: (err) => {
+        alert('Login failed');
+        console.error(err);
+      }
+    });
   }
 }
